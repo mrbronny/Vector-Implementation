@@ -4,7 +4,7 @@
 #include <cstddef>
 using namespace std;
 
-void Vector::grow(){
+void Vector::grow(){      //helper function that increases heap capacity by 1.6
   size_t new_cap = capacity * 1.6;
   capacity = new_cap;
   int* new_ptr = new int[new_cap];
@@ -17,13 +17,13 @@ void Vector::grow(){
 }
 
 //Object Management
-Vector::Vector(){
+Vector::Vector(){       //default constructor
   data_ptr = new int[CHUNK];
   n_elems = 0;
   capacity = CHUNK;
 }
 
-Vector::Vector(const Vector& v){
+Vector::Vector(const Vector& v){        //copy constructor
   n_elems = v.n_elems;
   capacity = v.capacity;
   data_ptr = new int[capacity];
@@ -32,7 +32,7 @@ Vector::Vector(const Vector& v){
   }
 }
 
-Vector& Vector::operator=(const Vector& v){
+Vector& Vector::operator=(const Vector& v){       //assignment operator
   if (this != &v){
     delete [] data_ptr;
     n_elems = v.n_elems;
@@ -45,46 +45,46 @@ Vector& Vector::operator=(const Vector& v){
   return *this;
 }
 
-Vector::~Vector(){
+Vector::~Vector(){      //destructor
   delete [] data_ptr;
 }
 
 //Accessors
-int Vector::front() const{
+int Vector::front() const{      //returns item in the first position
   if (n_elems == 0){
     throw std::range_error("Position out of range.");
   }
   return data_ptr[0];
 }
 
-int Vector::back() const{
+int Vector::back() const{       //returns item in the last position
   if (n_elems == 0){
     throw std::range_error("Position out of range.");
   }
   return data_ptr[n_elems-1];
 }
 
-int Vector::at(size_t pos) const{
+int Vector::at(size_t pos) const{       //returns item given the position (with bounds checking)
   if (pos >= n_elems){
     throw std::range_error("Position out of range.");
   }
   return data_ptr[pos];
 }
 
-size_t Vector::size() const{
+size_t Vector::size() const{        //returns the size of the object
   return n_elems;
 }
 
-bool Vector::empty() const{
+bool Vector::empty() const{         //returns true if empty, false if not
   return n_elems == 0;
 }
 
 //Mutators
-int& Vector::operator[](size_t pos){
+int& Vector::operator[](size_t pos){        //returns item given the position (no bounds checking)
   return data_ptr[pos];
 }
 
-void Vector::push_back(int item){
+void Vector::push_back(int item){       //adds given item to the end of the object
   if (n_elems >= capacity){
     this->grow();
   }
@@ -92,14 +92,14 @@ void Vector::push_back(int item){
   ++n_elems;
 }
 
-void Vector::pop_back(){
+void Vector::pop_back(){        //pops the last item in the object
   if (n_elems == 0){
     throw std::range_error("Position out of range.");
   }
   --n_elems;
 }
 
-void Vector::erase(size_t pos){
+void Vector::erase(size_t pos){       //erases an item given the position (with bounds checking)
   if (pos >= n_elems){
     throw std::range_error("Position out of range.");
   }
@@ -109,7 +109,7 @@ void Vector::erase(size_t pos){
   --n_elems;
 }
 
-void Vector::insert(size_t pos, int item){
+void Vector::insert(size_t pos, int item){        //inserts an item given the position and value (with bounds checking)
   if (n_elems >= capacity){
     this->grow();
   }
@@ -120,12 +120,12 @@ void Vector::insert(size_t pos, int item){
   data_ptr[pos] = item;
 }
 
-void Vector::clear(){
+void Vector::clear(){       //clears the whole object
   n_elems = 0;
 }
 
 //Iterators
-int* Vector::begin(){
+int* Vector::begin(){       //returns a pointer to the first item
   if (n_elems == 0){
     throw std::range_error("Position out of range.");
     return nullptr;
@@ -135,7 +135,7 @@ int* Vector::begin(){
   }
 }
 
-int* Vector::end(){
+int* Vector::end(){       //returns a pointer to the last item
   if (n_elems == 0){
     throw std::range_error("Position out of range.");
     return nullptr;
@@ -146,7 +146,7 @@ int* Vector::end(){
 }
 
 //Comparators
-bool Vector::operator==(const Vector& v) const{
+bool Vector::operator==(const Vector& v) const{       //compares two objects iteratively, returns true if they are the same
   if (n_elems != v.n_elems){
     return false;
   }
@@ -158,7 +158,7 @@ bool Vector::operator==(const Vector& v) const{
   return true;
 }
 
-bool Vector::operator!=(const Vector& v) const{
+bool Vector::operator!=(const Vector& v) const{       //compares two objects iteratively, returns true if they are different
   if (n_elems != v.n_elems){
     return true;
   }
